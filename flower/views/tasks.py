@@ -24,8 +24,8 @@ logger = logging.getLogger(__name__)
 
 class TaskView(BaseHandler):
     def __init__(self, *args, **kwargs):
-        self.USE_ES = options.elasticsearch
-        self.ELASTICSEARCH_URL = options.elasticsearch_url
+        self.USE_ES = args[0].capp.conf.elasticsearch
+        self.ELASTICSEARCH_URL = args[0].capp.conf.elasticsearch_url
         if self.USE_ES:
             from elasticsearch.client import Elasticsearch
             self.es_client = Elasticsearch([self.ELASTICSEARCH_URL, ])
@@ -94,11 +94,11 @@ class DoNotUseElasticSearchHistoryError(Exception):
 
 class TasksDataTable(BaseHandler):
     def __init__(self, *args, **kwargs):
-        if options.elasticsearch:
+        if args[0].capp.conf.elasticsearch:
             from kombu.utils.functional import LRUCache
             self.query_cache = LRUCache(limit=1000)
             self.use_es = True
-            self.elasticsearch_url = options.elasticsearch_url
+            self.elasticsearch_url = args[0].capp.conf.elasticsearch_url
             from elasticsearch.client import Elasticsearch
             self.es_client = Elasticsearch([self.elasticsearch_url, ])
         else:
