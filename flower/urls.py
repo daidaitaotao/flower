@@ -11,7 +11,7 @@ from .api import workers
 from .api import elasticsearch_history
 from .views import auth
 from .views import monitor
-from .views.broker import BrokerView
+from .views.broker import BrokerView, TasksQueuedView
 from .views.workers import WorkerView
 from .views.tasks import TaskView, TasksView, TasksDataTable
 from .views.error import NotFoundErrorHandler
@@ -37,6 +37,7 @@ handlers = [
     url(r"/tasks", TasksView, name='tasks'),
     url(r"/tasks/datatable", TasksDataTable),
     url(r"/broker", BrokerView, name='broker'),
+    url(r"/queued", TasksQueuedView, name='queued'),
     # Worker API
     (r"/api/workers", workers.ListWorkers),
     (r"/api/worker/shutdown/(.+)", control.WorkerShutDown),

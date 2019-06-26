@@ -136,6 +136,10 @@ class Redis(BrokerBase):
             })
         raise gen.Return(queue_stats)
 
+
+    def tasks_on_queue(self, name):
+        return [json.loads(item) for item in self.redis.lrange(name, 0, -1)]
+
     def _prepare_virtual_host(self, vhost):
         if not isinstance(vhost, numbers.Integral):
             if not vhost or vhost == '/':

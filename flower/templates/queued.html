@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+  {% module Template("navbar.html", active_tab="broker") %}
+{% end %}
+
+{% block container %}
+  <div class="container-fluid">
+    <div class="page-header">
+        <h3>Tasks queued information</h3>
+    </div>
+
+    <table id="queue-table" class="table table-bordered table-striped">
+      <caption>Tasks</caption>
+      <thead>
+        <tr>
+            <th>Taskname</th>
+            <th>UUID</th>
+            <th>Parent ID</th>
+            <th>Root ID</th>
+            <th>All task info</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for task in tasks %}
+        <tr>
+            <td>{{ task['headers']['task'] }}</td>
+            <td>{{ task['headers']['id'] }}</td>
+            <td>{{ task['headers'].get('parent_id', 'N/A') }}</td>
+            <td>{{ task['headers'].get('root_id', 'N/A') }}</td>
+            <td>{{ task }}</td>
+        </tr>
+      {% end %}
+      </tbody>
+     </table>
+
+</div>
+{% end %}
